@@ -27,11 +27,24 @@ public class PongAnimator implements Animator {
     private int yPos;;
     private double xVel = 70;
     private double yVel = 90;
-    private int xPaddle;
+
+    //constructor that calls new ball to randomly
+    //set positions and velocities
+    public PongAnimator(){
+        newBall();
+    }
+
+    //randomly sets positions and velocities
+    public void newBall(){
+        xPos = rand.nextInt(2048);
+        yPos = rand.nextInt(500);
+
+        xVel = rand.nextInt(80)+20;
+        yVel = rand.nextInt(80)+20;
+    }
 
     /**
-     * Interval between animation frames: .03 seconds (i.e., about 33 times
-     * per second).
+     * Interval between animation frames
      *
      * @return the time interval between frames, in milliseconds.
      */
@@ -59,6 +72,7 @@ public class PongAnimator implements Animator {
         xPos += xVel;
         yPos += yVel;
 
+        //finds width and height of animation surface
         int height = g.getHeight();
         int width = g.getWidth();
 
@@ -75,14 +89,20 @@ public class PongAnimator implements Animator {
         }
         //checks to see if the ball hits the paddle
         //if so chances  y velocity to bounce off
-        if( xPos >= (width/2)-200 && xPos <= (width/2)+200 && yPos >= height-150 )
-        {
+        if( xPos >= (width/2)-200 && xPos <= (width/2)+200
+                && yPos >= height-150 ) {
            yVel *= -1;
         }
 
-
+        /**
+         *checks to see if ball left screen if so
+         *creates a new ball
+         * i left this out because i made it so a new ball
+         * is launched when the user presses the screen
+         */
         if( yPos > height){
             //spit out a new ball with random speed and coordinates
+           // newBall();
         }
 
         // Draw the ball in the correct position.
@@ -91,6 +111,7 @@ public class PongAnimator implements Animator {
         g.drawCircle(xPos, yPos, 50, redPaint);
         redPaint.setColor(0xff0000ff);
 
+        //draws paddle in stationary position
         Paint paddlePaint = new Paint();
         paddlePaint.setColor(Color.CYAN);
         g.drawRect((width/2)-150,height-60,(width/2)+150, height, paddlePaint);
@@ -120,6 +141,8 @@ public class PongAnimator implements Animator {
     public void onTouch(MotionEvent event)
     {
         //adds a new ball everytime the user touches the screen
+        newBall();
+
     }
 
 

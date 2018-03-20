@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import cs301.animation.AnimationSurface;
-import cs301.pong.TestAnimator;
 import edu.snook20up.ponggame.R;
 
 /**
@@ -16,6 +15,10 @@ import edu.snook20up.ponggame.R;
  * @author Andrew Nuxoll
  * @author Steven R. Vegdahl
  * @version July 2013
+ *
+ *
+ * I added the feature that a new ball is
+ * only created when the user taps the screen
  *
  */
 public class Pong extends Activity {

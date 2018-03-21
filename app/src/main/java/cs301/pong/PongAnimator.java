@@ -1,46 +1,42 @@
 package cs301.pong;
 
 import android.graphics.*;
-import android.util.Log;
 import android.view.MotionEvent;
-
 import java.util.Random;
-
 import cs301.animation.Animator;
 
-import static android.content.ContentValues.TAG;
-import static edu.snook20up.ponggame.R.id.animationSurface;
-
-
 /**
- * class that animates a ball repeatedly moving diagonally on
- * simple background
+ * class that animates a ball bouncing around the screen
+ * the balls bounces off three of the walls and a paddle
+ * the ball goes thru the fourth wall
  *
  * @author Riley Snook
  *
  */
 public class PongAnimator implements Animator {
 
-    // instance variables
+    //instance variables
     Random rand = new Random();
-    private int xPos;
-    private int yPos;;
-    private double xVel = 70;
-    private double yVel = 90;
+    int xPos;
+    int yPos;
+    double xVel;
+    double yVel;
 
-    //constructor that calls new ball to randomly
-    //set positions and velocities
-    public PongAnimator(){
-        newBall();
+    //constructor that calls the random ball method
+    public PongAnimator() {
+        randomBall();
     }
 
-    //randomly sets positions and velocities
-    public void newBall(){
+    /*
+        Randomizes the balls position and velocity when
+        a new ball is made(screen is tapped)
+     */
+    public void randomBall() {
         xPos = rand.nextInt(2048);
         yPos = rand.nextInt(500);
 
-        xVel = rand.nextInt(80)+20;
-        yVel = rand.nextInt(80)+20;
+        xVel = rand.nextInt(30) + 20;
+        yVel = rand.nextInt(30) + 20;
     }
 
     /**
@@ -49,7 +45,7 @@ public class PongAnimator implements Animator {
      * @return the time interval between frames, in milliseconds.
      */
     public int interval() {
-        return 20;
+        return 7;
     }
 
     /**
@@ -69,6 +65,7 @@ public class PongAnimator implements Animator {
      */
     public void tick(Canvas g) {
 
+        //updates the position of the ball
         xPos += xVel;
         yPos += yVel;
 
@@ -79,19 +76,23 @@ public class PongAnimator implements Animator {
         //checks to see if the ball hit either
         // of the left or right walls
         //if so changes the x Velocity so it bounces off
-        if(xPos >= width-50 || xPos < 50) {
+        if (xPos >= width - 50 && xVel > 0) {
+            xVel *= -1;
+        }
+        if (xPos < 50 && xVel < 0) {
             xVel *= -1;
         }
         //checks to see if the ball hit the top wall
         //if so changes the y Velocity so it bounces off
-        if( yPos < 50){
+        if (yPos < 50 && yVel < 0) {
             yVel *= -1;
         }
+
         //checks to see if the ball hits the paddle
         //if so chances  y velocity to bounce off
-        if( xPos >= (width/2)-200 && xPos <= (width/2)+200
-                && yPos >= height-150 ) {
-           yVel *= -1;
+        if (xPos > (width / 2) - 150 && xPos < (width / 2) + 150
+                && yPos >= height - 120 && yPos < height && yVel > 0) {
+            yVel *= -1;
         }
 
         /**
@@ -100,10 +101,12 @@ public class PongAnimator implements Animator {
          * i left this out because i made it so a new ball
          * is launched when the user presses the screen
          */
-        if( yPos > height){
+        /*
+        if( yPos > 1390){
             //spit out a new ball with random speed and coordinates
-           // newBall();
+           randomBall();
         }
+        */
 
         // Draw the ball in the correct position.
         Paint redPaint = new Paint();
@@ -114,7 +117,9 @@ public class PongAnimator implements Animator {
         //draws paddle in stationary position
         Paint paddlePaint = new Paint();
         paddlePaint.setColor(Color.CYAN);
-        g.drawRect((width/2)-150,height-60,(width/2)+150, height, paddlePaint);
+        Rect paddle = new Rect((width / 2) - 150, height - 60, (width / 2) + 150, height);
+        g.drawRect(paddle, paddlePaint);
+
     }
 
     /**
@@ -138,13 +143,9 @@ public class PongAnimator implements Animator {
     /**
      * adds a new ball when the screen is touched
      */
-    public void onTouch(MotionEvent event)
-    {
+    public void onTouch(MotionEvent event) {
         //adds a new ball everytime the user touches the screen
-        newBall();
+        randomBall();
 
     }
-
-
-
-}//class TextAnimator
+}

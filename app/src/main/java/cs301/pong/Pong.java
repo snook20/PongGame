@@ -2,6 +2,7 @@ package cs301.pong;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Button;
 
 import cs301.animation.AnimationSurface;
 import edu.snook20up.ponggame.R;

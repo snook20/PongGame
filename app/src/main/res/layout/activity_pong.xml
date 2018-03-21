@@ -8,6 +8,34 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <RadioGroup
+            android:id="@+id/paddleSizeGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/smallPaddleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Small Paddle" />
+
+            <RadioButton
+                android:id="@+id/bigPaddleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Large Paddle" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/buttonNewBall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="New Ball" />
     </LinearLayout>
 
     <cs301.animation.AnimationSurface

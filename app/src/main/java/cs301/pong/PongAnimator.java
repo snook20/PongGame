@@ -16,11 +16,12 @@ import cs301.animation.Animator;
 public class PongAnimator implements Animator {
 
     //instance variables
-    Random rand = new Random();
-    int xPos;
-    int yPos;
-    double xVel;
-    double yVel;
+    private Random rand = new Random();
+    private int xPos;
+    private int yPos;
+    private double xVel;
+    private double yVel;
+    private int paddleSelection;
 
     //constructor that calls the random ball method
     public PongAnimator() {
@@ -37,6 +38,10 @@ public class PongAnimator implements Animator {
 
         xVel = rand.nextInt(30) + 20;
         yVel = rand.nextInt(30) + 20;
+    }
+
+    public void setPaddleSelection(int paddleSelection) {
+        this.paddleSelection = paddleSelection;
     }
 
     /**
@@ -65,6 +70,7 @@ public class PongAnimator implements Animator {
      */
     public void tick(Canvas g) {
 
+        int rectWidth = 0;
         //updates the position of the ball
         xPos += xVel;
         yPos += yVel;
@@ -72,6 +78,13 @@ public class PongAnimator implements Animator {
         //finds width and height of animation surface
         int height = g.getHeight();
         int width = g.getWidth();
+
+        if( paddleSelection == 1){
+            rectWidth = 100;
+        }
+        if( paddleSelection == 2){
+            rectWidth = 150;
+        }
 
         //checks to see if the ball hit either
         // of the left or right walls
@@ -90,7 +103,7 @@ public class PongAnimator implements Animator {
 
         //checks to see if the ball hits the paddle
         //if so chances  y velocity to bounce off
-        if (xPos > (width / 2) - 150 && xPos < (width / 2) + 150
+        if (xPos > (width / 2) - rectWidth && xPos < (width / 2) + rectWidth
                 && yPos >= height - 120 && yPos < height && yVel > 0) {
             yVel *= -1;
         }
@@ -114,12 +127,17 @@ public class PongAnimator implements Animator {
         g.drawCircle(xPos, yPos, 50, redPaint);
         redPaint.setColor(0xff0000ff);
 
+
         //draws paddle in stationary position
+        drawPaddle(g, width, height,rectWidth );
+
+    }
+
+    public void drawPaddle( Canvas g, int width, int height, int rectWidth){
         Paint paddlePaint = new Paint();
         paddlePaint.setColor(Color.CYAN);
-        Rect paddle = new Rect((width / 2) - 150, height - 60, (width / 2) + 150, height);
+        Rect paddle = new Rect((width / 2) - rectWidth, height - 60, (width / 2) + rectWidth, height);
         g.drawRect(paddle, paddlePaint);
-
     }
 
     /**
@@ -144,8 +162,6 @@ public class PongAnimator implements Animator {
      * adds a new ball when the screen is touched
      */
     public void onTouch(MotionEvent event) {
-        //adds a new ball everytime the user touches the screen
-        randomBall();
 
     }
 }

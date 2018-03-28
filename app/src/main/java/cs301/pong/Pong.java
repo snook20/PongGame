@@ -19,11 +19,22 @@ import edu.snook20up.ponggame.R;
  * @author Steven R. Vegdahl
  * @version July 2013
  *
- *
+ *Part A additions
  * I added the feature that a new ball is
  * only created when the user taps the new ball button
  *
  * Also added a feature to change the size of the paddle
+ *
+ * Part B additions
+ * Add a running score that increases when the ball is hit by paddle
+ * and decreases by three when the user misses the ball
+ *
+ * Keeps track of lives. Starts game with 5 lives and each time the
+ * ball goes out of bounce the user loses one life. Lives are shown on
+ * the gui in top right corner
+ *
+ * when the ball hits the paddle the speed is randomly changed between
+ * three different speed
  */
 public class Pong extends Activity {
 
@@ -43,18 +54,23 @@ public class Pong extends Activity {
         RadioButton smallPaddle = (RadioButton)findViewById(R.id.smallPaddleButton);
         RadioButton bigPaddle = (RadioButton)findViewById(R.id.bigPaddleButton);
 
-        PongAnimator newPongAnimator = new PongAnimator();
-
         // Connect the animation surface with the animator
         AnimationSurface mySurface = (AnimationSurface) this
                 .findViewById(R.id.animationSurface);
+
+        PongAnimator newPongAnimator = new PongAnimator();
         mySurface.setAnimator(newPongAnimator);
 
         //creates listener object
         Listeners newListener = new Listeners(newBallButton, newPongAnimator);
 
+        //listener for touch on screen
+        mySurface.setOnTouchListener(newListener);
+
         //sets
         bigPaddle.setChecked(true);
+
+
 
         //calls on click listener to draw paddle in beginning
         newListener.onCheckedChanged(paddleSize, R.id.bigPaddleButton);

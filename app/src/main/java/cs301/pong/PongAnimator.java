@@ -112,11 +112,13 @@ public class PongAnimator implements Animator {
         int width = g.getWidth();
         int height = g.getHeight();
 
+        //checks to see if a new game is being started
         if( lives == 5 && score == 0 ){
             yPos = height-120;
             xPos = paddleX;
         }
 
+        //sets the ball to be on top of the paddle before user presses new ball
         if( xVel ==0 && yVel == 0)
         {
             xPos = paddleX;
@@ -137,16 +139,8 @@ public class PongAnimator implements Animator {
         }
 
         //changes paddle size based on the radio button selection
-        int rectWidth;
-        if( paddleSelection == 1){
-            rectWidth = 100;
-        }
-        else if( paddleSelection == 2){
-            rectWidth = 150;
-        }
-        else{
-            rectWidth = 0;
-        }
+        int rectWidth = paddleSelection();
+
 
         //checks to see if the ball hit either
         // of the left or right walls
@@ -157,6 +151,7 @@ public class PongAnimator implements Animator {
         if (xPos < 50 && xVel < 0) {
             xVel *= -1;
         }
+
         //checks to see if the ball hit the top wall
         //if so changes the y Velocity so it bounces off
         if (yPos < 50 && yVel < 0) {
@@ -210,11 +205,25 @@ public class PongAnimator implements Animator {
     }
 
     @Override
-    /*i take care of the touch event in my listeners class
-    *this is abstract in animator so i must keep the method here
-    */
+    //i take care of the touch event in my listeners class
+    //this is abstract in animator so i must keep the method here
     public void onTouch(MotionEvent event) {
 
+    }
+
+    //return width of paddle based on radio selection
+    public int paddleSelection(){
+        int temp;
+        if( paddleSelection == 1){
+            temp = 100;
+        }
+        else if( paddleSelection == 2){
+            temp = 150;
+        }
+        else{
+            temp = 0;
+        }
+        return temp;
     }
 
     //draws the ball at the updated x and y position

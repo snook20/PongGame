@@ -70,8 +70,6 @@ public class Pong extends Activity {
         //sets
         bigPaddle.setChecked(true);
 
-
-
         //calls on click listener to draw paddle in beginning
         newListener.onCheckedChanged(paddleSize, R.id.bigPaddleButton);
 
